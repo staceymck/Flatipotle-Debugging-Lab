@@ -1,22 +1,25 @@
 import React, { Component } from 'react'
 import './App.css'
-import Form from './Form'
-import Order from './Order'
+import Form from './components/Form'
+import Order from './components/Order'
 
 class App extends Component {
-  state: {
+  state = {
     orders: []
   }
 
   addOrder = (order) => {
-    this.setState({
-      orders: this.state.orders.concat(order)
-    })
+    console.log(order)
+    this.setState(state => {
+      return {
+        orders: state.orders.concat(order)
+      }
+    }, () => console.log(this.state.orders))
   }
 
   render() {
     const orders = this.state.orders.map( (order, idx) => {
-      <Order key={idx} {...order} />
+      return <Order key={idx} {...order} /> //make sure map calls have a return value
     })
 
     return (
@@ -25,7 +28,7 @@ class App extends Component {
           <img src={ require('./images/logo.png') } className="App-logo" alt="logo" />
         </header>
 
-        <Form />
+        <Form addOrder={this.addOrder}/>
 
         <div className="ui raised container segment">
           <h1 className="ui block header">All Orders</h1>
